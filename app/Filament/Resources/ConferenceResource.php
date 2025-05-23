@@ -24,8 +24,24 @@ class ConferenceResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('name')
+                    ->label('Conference')
+                    ->helperText('The name of the conference')
+                    ->hint('The name of the conference')
+                    ->hintIcon('heroicon-o-home')
+                    ->hintColor('success')
+                    //->hintAction('https://example.com')
+                    ->placeholder('Enter the name of the conference')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(100)
+                    ->rules(['required', 'string', 'max:100']),
+                Forms\Components\TextInput::make('website')
+                    ->label('Website')
+                    ->url()
+                    //->prefix('https://')
+                    ->prefixIcon('heroicon-o-globe-alt')
+                    ->maxLength(255)
+                    //->columnSpan(4)
+                    ->rules(['nullable', 'url', 'max:255']),
                 Forms\Components\TextInput::make('description')
                     ->required()
                     ->maxLength(255),
