@@ -83,10 +83,6 @@ class ConferenceResource extends Resource
                 Forms\Components\DateTimePicker::make('end_date')
                     ->required(),
 
-
-
-
-
                 /*Forms\Components\Checkbox::make('status')
                     ->label('Status')
                     ->hint('Is the conference active?')
@@ -94,12 +90,17 @@ class ConferenceResource extends Resource
                     ->default(true)
                     ->required(),*/
 
+                /*Forms\Components\Toggle::make('is_virtual')
+                                    ->label('Is Virtual')
+                                    ->default(false),*/
+
+                Forms\Components\Toggle::make('is_published')
+                    ->label('Is Published')
+                    ->default(false),
 
                 Forms\Components\TextInput::make('status')
                     ->required()
                     ->maxLength(255),
-
-
 
                 Forms\Components\TextInput::make('region')
                     ->required()
@@ -108,19 +109,6 @@ class ConferenceResource extends Resource
 
                 Forms\Components\Select::make('venue_id')
                     ->relationship('venue', 'name'),
-
-
-
-                Forms\Components\Toggle::make('is_virtual')
-                    ->label('Is Virtual')
-                    ->default(false),
-
-
-                Forms\Components\Toggle::make('is_published')
-                    ->label('Is Published')
-                    ->default(false),
-
-
 
             ]);
     }
