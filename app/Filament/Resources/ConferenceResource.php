@@ -27,7 +27,7 @@ class ConferenceResource extends Resource
                     ->label('Conference')
                     ->helperText('The name of the conference')
                     ->hint('The name of the conference')
-                    ->hintIcon('heroicon-o-home')
+                    ->hintIcon('heroicon-o-home', tooltip: 'This is the name of the conference')
                     ->hintColor('info')
                     //->hintAction('https://example.com')
                     ->placeholder('Enter the name of the conference')
@@ -52,6 +52,7 @@ class ConferenceResource extends Resource
                     ->label('Description')
                     ->hint('A brief description of the conference')
                     ->hintIcon('heroicon-o-information-circle')
+                    ->autofocus()
                     /*->disableToolbarButtons([
                         'attachFiles',
                         'codeBlock',
