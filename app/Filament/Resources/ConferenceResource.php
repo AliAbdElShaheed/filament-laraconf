@@ -28,35 +28,100 @@ class ConferenceResource extends Resource
                     ->helperText('The name of the conference')
                     ->hint('The name of the conference')
                     ->hintIcon('heroicon-o-home')
-                    ->hintColor('success')
+                    ->hintColor('info')
                     //->hintAction('https://example.com')
                     ->placeholder('Enter the name of the conference')
                     ->required()
                     ->maxLength(100)
                     ->rules(['required', 'string', 'max:100']),
-                Forms\Components\TextInput::make('website')
+
+
+                /*Forms\Components\TextInput::make('website')
                     ->label('Website')
                     ->url()
                     //->prefix('https://')
                     ->prefixIcon('heroicon-o-globe-alt')
+                    ->suffix('. com')
+                    ->default('www.example.com')
                     ->maxLength(255)
                     //->columnSpan(4)
-                    ->rules(['nullable', 'url', 'max:255']),
-                Forms\Components\TextInput::make('description')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\DateTimePicker::make('start_date')
+                    ->rules(['nullable', 'url', 'max:255']),*/
+
+
+                Forms\Components\RichEditor::make('description')
+                    ->label('Description')
+                    ->hint('A brief description of the conference')
+                    ->hintIcon('heroicon-o-information-circle')
+                    /*->disableToolbarButtons([
+                        'attachFiles',
+                        'codeBlock',
+                        'h1',
+                        'h2',
+                        'h3',
+                        'h4',
+                        'h5',
+                        'h6',
+                    ])*/
+                    ->toolbarButtons(['bold', 'italic', 'underline', 'link', 'bulletList', 'numberList'])
+                    //->columnSpan(2)
                     ->required(),
+
+                /*Forms\Components\MarkdownEditor::make('description2')
+                    ->label('Description')
+                    ->hint('A brief description of the conference')
+                    ->hintIcon('heroicon-o-information-circle')
+                    //->toolbarButtons(['bold', 'italic', 'underline', 'link', 'bulletList', 'numberList'])
+                    ->columnSpan(2)
+                    ->maxLength(255),*/
+
+
+                Forms\Components\DatePicker::make('start_date')
+                    ->native(false)
+                    ->required(),
+
+
                 Forms\Components\DateTimePicker::make('end_date')
                     ->required(),
+
+
+
+
+
+                /*Forms\Components\Checkbox::make('status')
+                    ->label('Status')
+                    ->hint('Is the conference active?')
+                    ->hintIcon('heroicon-o-information-circle')
+                    ->default(true)
+                    ->required(),*/
+
+
                 Forms\Components\TextInput::make('status')
                     ->required()
                     ->maxLength(255),
+
+
+
                 Forms\Components\TextInput::make('region')
                     ->required()
                     ->maxLength(255),
+
+
                 Forms\Components\Select::make('venue_id')
                     ->relationship('venue', 'name'),
+
+
+
+                Forms\Components\Toggle::make('is_virtual')
+                    ->label('Is Virtual')
+                    ->default(false),
+
+
+                Forms\Components\Toggle::make('is_published')
+                    ->label('Is Published')
+                    ->default(false),
+
+
+
             ]);
     }
 
