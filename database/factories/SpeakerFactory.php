@@ -23,6 +23,11 @@ class SpeakerFactory extends Factory
         return [
             'name' => fake()->name(),
             'email' => fake()->safeEmail(),
+            'qualifications' => json_encode([
+                'PhD in Computer Science',
+                'MSc in Software Engineering',
+                'BSc in Information Technology',
+            ]),
             'bio' => fake()->text(),
             'twitter_handle' => fake()->word(),
         ];
