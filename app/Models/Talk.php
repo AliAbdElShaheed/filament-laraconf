@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,21 +14,45 @@ class Talk extends Model
 {
     use HasFactory;
 
+    // Scopes
+
+
+    // Casts
     protected function casts(): array
     {
         return [
             'id' => 'integer',
             'speaker_id' => 'integer',
         ];
-    }
+    } // end casts
 
+
+    // Relationships
     public function speaker(): BelongsTo
     {
         return $this->belongsTo(Speaker::class);
-    }
+    } // end speaker relationship
 
     public function conferences(): BelongsToMany
     {
         return $this->belongsToMany(Conference::class);
-    }
-}
+    } // end conferences relationship
+
+
+    // Functions
+    public static function getFormSchema(): array
+    {
+        return [
+            TextInput::make('title')
+                ->required()
+                ->maxLength(255),
+            Textarea::make('abstract')
+                ->required()
+                ->columnSpanFull(),
+            Select::make('speaker_id')
+                ->relationship('speaker', 'name')
+                ->required(),
+        ];
+    } // end getFormSchema
+
+} // end Talk Model

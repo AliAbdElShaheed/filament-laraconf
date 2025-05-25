@@ -14,6 +14,11 @@ class Speaker extends Model
 {
     use HasFactory;
 
+    // Scopes
+
+
+
+
     // casts
     protected function casts(): array
     {
@@ -21,7 +26,7 @@ class Speaker extends Model
             'id' => 'integer',
             'qualifications' => 'array',
         ];
-    }
+    } // end casts
 
 
     // relationships
@@ -77,4 +82,6 @@ class Speaker extends Model
                 ->columns(4)
         ];
     } // end getFormSchema
+
+
 } // end Speaker Model

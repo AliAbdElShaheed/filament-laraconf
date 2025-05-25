@@ -14,6 +14,11 @@ class Venue extends Model
 {
     use HasFactory;
 
+
+    // scopes
+
+
+
     //casts
     protected function casts(): array
     {
@@ -21,13 +26,16 @@ class Venue extends Model
             'id' => 'integer',
             'region' => Region::class,
         ];
-    }
+    } // end casts
+
 
     // relationships
     public function conferences(): HasMany
     {
         return $this->hasMany(Conference::class);
-    }
+    } // end conferences relationship
+
+
 
 
     //functions
