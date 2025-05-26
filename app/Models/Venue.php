@@ -4,15 +4,18 @@ namespace App\Models;
 
 use App\Enums\Region;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Filament\Forms;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class Venue extends Model
+class Venue extends Model implements HasMedia
 {
-    use HasFactory;
+    use HasFactory, InteractsWithMedia;
 
 
     // scopes
@@ -61,6 +64,15 @@ class Venue extends Model
                 ->enum(Region::class)
                 ->options(Region::class),
 
+            SpatieMediaLibraryFileUpload::make('images')
+                ->collection('venue-images')
+                ->label('Venue Image')
+                ->disk('media') // Use the 'media' disk defined in config/filesystems.php)
+                ->image()
+                ->multiple()
+                ->maxSize(1024 * 2) // 2MB
+                ->acceptedFileTypes(['image/*'])
+                ->directory('venues/images'),
         ];
     } // end getFormSchema
 
