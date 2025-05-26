@@ -23,13 +23,17 @@ class ConferenceFactory extends Factory
      */
     public function definition(): array
     {
+        //$startDate = $this->faker->dateTimeBetween('-1 year', '+1 year');
+        $startDate = now()->addMonth(9);
+        $endDate = now()->addMonth(9)->addDays(rand(1, 10));
         return [
             'name' => fake()->name(),
             'description' => fake()->text(),
-            'start_date' => fake()->dateTime(),
-            'end_date' => fake()->dateTime(),
+            'start_date' => $startDate,
+            'end_date' => $endDate,
             'status' => $this->faker->randomElement(Status::class),
             'region' => $this->faker->randomElement(Region::class),
+            //'venue_id' => null, // Set to null for now, can be updated later
             'venue_id' => Venue::factory(),
         ];
     }

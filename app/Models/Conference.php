@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Enums\Region;
 use App\Enums\Status;
+use Filament\Forms\Components\Actions;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
@@ -209,6 +211,26 @@ class Conference extends Model
                         }),
                 ]),
 
+            Actions::make([
+                Action::make('star')
+                    ->label('Fill with Factory Data')
+                    ->visible(function (string $operation) {
+                        if ($operation !== 'create') {
+                            return false; // Only show this action on create operation
+                        }
+                        if (!app()->environment('local')) {
+                            return false; // Hide in non-local environments
+                        }
+                        return true; // Show in local environment
+                    })
+                    ->icon('heroicon-m-star')
+                    //->requiresConfirmation()
+                    ->action(function ($livewire) {
+                        $data = Conference::factory()->make()->toArray();
+                        unset($data['venue_id']); // Remove venue_id if not needed
+                        $livewire->form->fill($data);
+                    }),
+            ]),
 
         ];
 
