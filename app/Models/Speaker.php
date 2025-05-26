@@ -10,14 +10,25 @@ use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Speaker extends Model
 {
     use HasFactory;
 
+    const QUALIFICATIONS = [
+        'business-leader' => 'Business Leader',
+        'developer' => 'Developer',
+        'designer' => 'Designer',
+        'entrepreneur' => 'Entrepreneur',
+        'investor' => 'Investor',
+        'marketer' => 'Marketer',
+        'product-manager' => 'Product Manager',
+        'researcher' => 'Researcher',
+    ];
+
+
     // Scopes
-
-
 
 
     // casts
@@ -35,6 +46,13 @@ class Speaker extends Model
     {
         return $this->belongsToMany(Conference::class);
     } // end conferences relationship
+
+    public function talks(): HasMany
+    {
+        return $this->hasMany(Talk::class);
+    } // end talks relationship
+
+
 
 
     // functions

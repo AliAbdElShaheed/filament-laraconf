@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\Status;
+use App\Enums\TalkLength;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -18,11 +20,20 @@ class Talk extends Model
 
 
     // Casts
+    /*protected $casts = [
+        'id' => 'integer',
+        'speaker_id' => 'integer',
+        'status' => Status::class,
+        'length' => TalkLength::class,
+    ]; // end casts*/
     protected function casts(): array
     {
         return [
             'id' => 'integer',
             'speaker_id' => 'integer',
+            'status' => Status::class,
+            'length' => TalkLength::class,
+            'new-talk' => 'boolean',
         ];
     } // end casts
 
