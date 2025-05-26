@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\Region;
+use App\Enums\Status;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\DateTimePicker;
@@ -160,9 +161,12 @@ class Conference extends Model
                                         ->default(false),*/
 
 
-                    TextInput::make('status')
+                    Select::make('status')
+                        ->label('Status')
+                        ->options(Status::class)
+                        ->default(Status::DRAFT)
                         ->required()
-                        ->maxLength(255),
+                        ->columnSpanFull(),
 
                     Toggle::make('is_published')
                         ->label('Is Published')
