@@ -2,11 +2,17 @@
 
 namespace App\Models;
 
+use App\Enums\TalkStatus;
 use Filament\Forms\Components\Checkbox;
 use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
+use Filament\Infolists\Components\Group;
+use Filament\Infolists\Components\ImageEntry;
+use Filament\Infolists\Components\Section;
+use Filament\Infolists\Components\TextEntry;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -74,7 +80,7 @@ class Speaker extends Model
                 ->email()
                 ->required()
                 ->maxLength(255),
-            Textarea::make('bio')
+            RichEditor::make('bio')
                 ->columnSpanFull(),
             TextInput::make('twitter_handle')
                 ->maxLength(255),
@@ -106,6 +112,60 @@ class Speaker extends Model
                 ->columns(4)
         ];
     } // end getFormSchema
+
+
+    // Infolist schema for the Speaker resource
+    public static function getInfolistSchema(): array
+    {
+        return [
+            Section::make('Personal Information')
+                ->columns(3)
+                ->schema([
+                    ImageEntry::make('avatar')
+                        ->circular(),
+                    Group::make()
+                        ->columns(2)
+                        ->columnSpan(2)
+                        ->schema([
+                            TextEntry::make('name')
+                                ->label('Name')
+                                ->weight('bold')
+                                ->size('lg'),
+                            TextEntry::make('email')
+                                ->label('Email')
+                                ->weight('medium'),
+                            TextEntry::make('twitter_handle')
+                                ->label('Twitter')
+                                ->getStateUsing(fn($record) => $record->twitter_handle ? '@' . $record->twitter_handle : null)
+                                ->weight('medium')
+                                ->url(fn($record) => 'https://twitter.com/' . $record->twitter_handle),
+                            TextEntry::make('has_spoken')
+                                ->label('Has Spoken')
+                                ->getStateUsing(fn($record) => $record->talks()->where('status', TalkStatus::APPROVED)->count() > 0 ? 'Previously Spoken' : 'Has Not Spoken')
+                                ->badge()
+                                ->color(fn($record) => $record->talks()->where('status', TalkStatus::APPROVED)->count() > 0 ? 'success' : 'danger'),
+
+                        ]),
+
+                ]),
+            Section::make('Other Information')
+                ->columns(3)
+                ->schema([
+                    TextEntry::make('bio')
+                        ->label('Bio')
+                        ->extraAttributes(['class' => 'prose dark:prose-invert'])
+                        ->HTML()
+                        ->columnSpanFull(),
+                    TextEntry::make('qualifications')
+                        ->label('Qualifications')
+                        /*->getStateUsing(fn($record) => implode(', ', $record->qualifications))
+                        ->weight('medium')*/
+                        ->listWithLineBreaks()
+                        ->bulleted(),
+
+                ]),
+        ];
+    } // end getInfolistSchema
 
 
 } // end Speaker Model

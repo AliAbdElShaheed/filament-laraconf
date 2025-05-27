@@ -35,6 +35,8 @@ class ConferenceResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('description')
+                    ->Html()
+                    ->limit(50)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('start_date')
                     ->dateTime()

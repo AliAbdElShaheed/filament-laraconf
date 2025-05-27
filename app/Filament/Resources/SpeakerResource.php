@@ -7,6 +7,7 @@ use App\Filament\Resources\SpeakerResource\RelationManagers;
 use App\Models\Speaker;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Columns\ImageColumn;
@@ -57,13 +58,21 @@ class SpeakerResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                //Tables\Actions\EditAction::make(),
+                Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema(Speaker::getInfolistSchema());
     }
 
     public static function getRelations(): array
@@ -78,7 +87,8 @@ class SpeakerResource extends Resource
         return [
             'index' => Pages\ListSpeakers::route('/'),
             'create' => Pages\CreateSpeaker::route('/create'),
-            'edit' => Pages\EditSpeaker::route('/{record}/edit'),
+            //'edit' => Pages\EditSpeaker::route('/{record}/edit'),
+            'view' => Pages\ViewSpeaker::route('/{record}'),
         ];
     }
 }
