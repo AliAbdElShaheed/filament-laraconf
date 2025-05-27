@@ -15,14 +15,14 @@ enum Status : string
             self::PUBLISHED => 'Published',
             self::ARCHIVED => 'Archived',
         };
-    }
+    } // end label
 
-    public function color(): string
+    public function getColor(): string
     {
         return match ($this) {
             self::DRAFT => 'gray',
             self::PUBLISHED => 'green',
             self::ARCHIVED => 'red',
         };
-    }
+    } // end getColor
 } // end enum

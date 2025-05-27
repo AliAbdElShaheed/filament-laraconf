@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\Status;
 use App\Enums\TalkLength;
+use App\Enums\TalkStatus;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -31,7 +32,7 @@ class Talk extends Model
         return [
             'id' => 'integer',
             'speaker_id' => 'integer',
-            'status' => Status::class,
+            'status' => TalkStatus::class,
             'length' => TalkLength::class,
             'new-talk' => 'boolean',
         ];
