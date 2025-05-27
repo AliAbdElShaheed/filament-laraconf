@@ -21,7 +21,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Filament\Forms;
-
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 
 class Conference extends Model
@@ -62,6 +62,12 @@ class Conference extends Model
     {
         return $this->belongsToMany(Talk::class);
     } // end talks relationship
+
+
+    public function attendees(): HasMany
+    {
+        return $this->hasMany(Attendee::class);
+    } // end attendees relationship
 
 
     // functions
