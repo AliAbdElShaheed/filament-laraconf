@@ -119,6 +119,7 @@ class Speaker extends Model
     {
         return [
             Section::make('Personal Information')
+                ->collapsible()
                 ->columns(3)
                 ->schema([
                     ImageEntry::make('avatar')
@@ -149,6 +150,7 @@ class Speaker extends Model
 
                 ]),
             Section::make('Other Information')
+                ->collapsed()
                 ->columns(3)
                 ->schema([
                     TextEntry::make('bio')

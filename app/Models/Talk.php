@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\Status;
 use App\Enums\TalkLength;
 use App\Enums\TalkStatus;
+use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -52,16 +53,19 @@ class Talk extends Model
 
 
     // Functions
-    public static function getFormSchema(): array
+    public static function getFormSchema($speakerId = null): array
     {
         return [
             TextInput::make('title')
                 ->required()
                 ->maxLength(255),
-            Textarea::make('abstract')
+            RichEditor::make('abstract')
                 ->required()
                 ->columnSpanFull(),
             Select::make('speaker_id')
+                ->hidden(function () use ($speakerId) {
+                    return $speakerId !== null;
+                })
                 ->relationship('speaker', 'name')
                 ->required(),
         ];
