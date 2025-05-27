@@ -217,6 +217,31 @@ class TalkResource extends Resource
                                 ->send();
                         }),
                 ]),
+            ])
+            ->HeaderActions([
+                Action::make('export')
+                    ->label('Export Talks')
+                    ->icon('heroicon-o-arrow-down-tray')
+                    ->color('primary')
+                    ->tooltip('Export all talks to CSV')
+                    ->action(function ($livewire) {
+                        $livewire->dispatch('exportTalks');
+                    }),
+
+                Action::make('export-filtered')
+                    ->label('Export Filtered Talks')
+                    ->icon('heroicon-o-funnel')
+                    ->color('primary')
+                    ->tooltip('Export filtered talks to CSV')
+                    ->action(function ($livewire) {
+                        $livewire->getFilteredTableQuery()
+                            ->get()
+                            ->each(function ($record) {
+                                // Logic to export each record
+                                // This could be a custom export function or a direct download
+                            });
+                    }),
+
             ]);
     }
 
