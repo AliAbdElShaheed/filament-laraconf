@@ -17,9 +17,12 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\TextInputColumn;
 use Filament\Tables\Columns\ToggleColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use PHPUnit\Util\Filter;
 
 class TalkResource extends Resource
 {
@@ -37,16 +40,21 @@ class TalkResource extends Resource
     {
         return $table
             ->columns([
-                TextInputColumn::make('title')
+                TextColumn::make('title')
                     ->searchable()
-                    /*->description(function (Talk $record) {
+                    ->sortable()
+                    ->description(function (Talk $record) {
                         return $record->abstract ? substr($record->abstract, 0, 40) . '...' : 'No abstract provided';
-                    }),*/
+                    }),
+
+
+                /*TextInputColumn::make('title')
+                    ->searchable()
                     ->sortable()
                     ->rules([
                         'required',
                         'max:255',
-                    ]),
+                    ]),*/
                 TextColumn::make('abstract')
                     ->wrap()
                     //->limit(50),
@@ -66,7 +74,8 @@ class TalkResource extends Resource
                     ->label('New Talk')
                     ->toggleable(isToggledHiddenByDefault: true),*/
 
-                ToggleColumn::make('new-talk'),
+                ToggleColumn::make('new-talk')
+                    ->sortable(),
                 TextColumn::make('status')
                     ->badge()
                     ->searchable()
@@ -99,7 +108,33 @@ class TalkResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                TernaryFilter::make('new-talk'),
+                SelectFilter::make('speaker')
+                    ->relationship('speaker', 'name')
+                    ->placeholder('All Speakers')
+                    ->multiple()
+                    ->searchable()
+                    ->preload(),
+
+                Tables\Filters\Filter::make('has_avatar')
+                    ->label('Only Speakers with Avatars')
+                    ->toggle()
+                    /*->query(function (Builder $query, $state) {
+                    if ($state) {
+                        return $query->whereHas('speaker', function (Builder $query) {
+                            $query->whereNotNull('avatar');
+                        });
+                    }
+                    return $query->whereDoesntHave('speaker', function (Builder $query) {
+                        $query->whereNotNull('avatar');
+                    });
+                }),*/
+                    ->query(function ($query) {
+                        return $query->whereHas('speaker', function (Builder $query) {
+                            $query->whereNotNull('avatar');
+                        });
+                    }),
+
             ])
             ->actions([
                 EditAction::make(),
