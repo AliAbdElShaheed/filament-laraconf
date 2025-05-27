@@ -67,4 +67,22 @@ class Talk extends Model
         ];
     } // end getFormSchema
 
+
+    public function approve()
+    {
+        $this->status = TalkStatus::APPROVED;
+
+        // email the speaker
+        $this->save();
+    } // end approve
+
+
+    public function reject()
+    {
+        $this->status = TalkStatus::REJECTED;
+
+        // email the speaker
+        $this->save();
+    } // end reject
+
 } // end Talk Model
