@@ -13,6 +13,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class AttendeeResource extends Resource
@@ -23,9 +24,22 @@ class AttendeeResource extends Resource
 
     //protected static ?string $navigationGroup = 'Second Group';
 
+    protected static ?string $recordTitleAttribute = 'name';
+
     public static function getNavigationBadge(): ?string
     {
         return static::getModel()::count();
+    }
+
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            'Email' => $record->email,
+            'Ticket Cost' => $record->ticket_cost,
+            'Paid' => $record->is_paid ? 'Yes' : 'No',
+            'Conference' => $record->conference->name ?? 'N/A',
+        ];
     }
 
     public static function getNavigationBadgeColor(): string|array|null

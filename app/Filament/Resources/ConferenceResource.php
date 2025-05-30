@@ -24,6 +24,7 @@ class ConferenceResource extends Resource
 
     protected static ?string $navigationGroup = 'First Group';
 
+    protected static ?string $recordTitleAttribute = 'name';
     public static function form(Form $form): Form
     {
         return $form
