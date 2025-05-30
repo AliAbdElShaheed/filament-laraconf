@@ -14,6 +14,7 @@ use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class ConferenceResource extends Resource
@@ -25,6 +26,15 @@ class ConferenceResource extends Resource
     protected static ?string $navigationGroup = 'First Group';
 
     protected static ?string $recordTitleAttribute = 'name';
+
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            'Start Date' => $record->start_date?->format('Y-m-d H:i'),
+            'Venue' => $record->venue?->name ?? 'N/A',
+        ];
+    }
     public static function form(Form $form): Form
     {
         return $form
