@@ -23,13 +23,14 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\TextInputColumn;
 use Filament\Tables\Columns\ToggleColumn;
+use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Collection;
-use PHPUnit\Util\Filter;
+
 
 class TalkResource extends Resource
 {
@@ -129,7 +130,7 @@ class TalkResource extends Resource
                     ->searchable()
                     ->preload(),
 
-                Tables\Filters\Filter::make('has_avatar')
+                Filter::make('has_avatar')
                     ->label('Only Speakers with Avatars')
                     ->toggle()
                     /*->query(function (Builder $query, $state) {
